@@ -1,20 +1,17 @@
-def call(Map config = [:]) {
-    def repoUrl   = config.repoUrl ?: error("Missing parameter: repoUrl")
-    def branch    = config.branch ?: "main"
-    def mavenCmd  = config.mavenCmd ?: "clean package"
+@Library("my-shared-library") _
+pipeline {
+    agent any
 
-    try {
-        stage("Clone Maven Project") {
-            echo "📦 Cloning repository: ${repoUrl} (branch: ${branch})"
-            git branch: branch, url: repoUrl
+    stages {
+        stage('Hello') {
+            steps {
+                helloWorld()
+            }
         }
-
-        stage("Run Maven Command") {
-            echo "⚙️ Running: mvn ${mavenCmd}"
-            sh "mvn ${mavenCmd}"
+        stage("maven-build") {
+            steps {
+                mavenBuild()
+            }
         }
-    } catch (err) {
-        echo "❌ Build failed: ${err.message}"
-        throw err
     }
 }
