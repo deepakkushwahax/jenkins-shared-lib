@@ -24,3 +24,7 @@ def call(Map config = [:]) {
     }
 }
 */
+
+def call() {
+  sh 'echo The above script setup the mvn clean install'
+}
